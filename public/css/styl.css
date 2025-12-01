@@ -1,7 +1,12 @@
-.navbar {
-    border-bottom: 1px solid grey;
+/* Kod na pridanie fontu z: https://rsms.me/inter/ */
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+  /* fix for Chrome */
 }
-
-.navbar-brand img {
-    width: 50px;
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
 }
+/* Koniec kodu na pridanie fontu */
