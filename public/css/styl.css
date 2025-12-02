@@ -10,3 +10,55 @@
   }
 }
 /* Koniec kodu na pridanie fontu */
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.buttons {
+  padding: 8px 20px;
+  font-size: 24px;
+  text-decoration: none;
+  color: black;
+  border-radius: 100px;
+  font-weight: bold;
+  background-color: #609b80;
+  &:hover {
+    background-color: #47735F;
+  }
+}
+
+header {
+  nav {
+    height: 50px;
+    background-color: aquamarine;
+    padding: 10px;
+    #logonav {
+      margin-right: 20px;
+      float: left;
+      height: 50px;
+      img {
+        height: 50px;
+      }
+    }
+    .sectiontab {
+      float: left;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+      font-size: 30px;
+      padding: 5px 10px;
+      height: 40px;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+    #search {
+      float: left;
+    }
+    .buttons {
+      float: right;
+    }
+  }
+}
