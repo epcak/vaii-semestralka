@@ -12,12 +12,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?= $link->asset('css/styl.css') ?>">
+    <link rel="icon" type="image/x-icon" href="<?= $link->asset('favicons/favicon.ico') ?>">
+    <script src="<?= $link->asset('js/auth.js') ?>"></script>
     <!-- Kod na pridanie fontu z: https://rsms.me/inter/ -->
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <!-- Koniec kodu na pridanie fontu -->
 </head>
-<body>
+<body class="authside">
+    <a href="?c=home&a=index" class="loginlogo"><img src="<?= $link->asset('images/logo.png') ?>" alt="logo zauj*web"></a>
     <?= $contentHTML ?>
 </body>
 </html>

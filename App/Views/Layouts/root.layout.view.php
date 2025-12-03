@@ -32,7 +32,7 @@
                 <?php if (false) { ?>
                     <a class="buttons" href="#"><?= $auth?->user?->name ?></a>
                 <?php } else { ?>
-                    <a class="buttons" href="#">Prihlásiť sa</a>
+                    <a class="buttons" href="<?= App\Configuration::LOGIN_URL ?>">Prihlásiť sa</a>
                 <?php } ?>
             </div>
         </nav>

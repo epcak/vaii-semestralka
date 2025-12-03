@@ -114,3 +114,55 @@ header {
     }
   }
 }
+
+/* Specificky k prihlasovani a registracii*/
+.authside {
+  --item-color: #75BD9B;
+  --link-color: #47735F;
+  --warning-color: rgb(211, 21, 21);
+  
+  text-align: center;
+  background-color: #DBEDE5;
+  .loginlogo {
+    display: inline-block;
+    height: 68px;
+    margin: 50px auto;
+  }
+
+  .authinputcontainer {
+    .authwarning {
+      color: var(--warning-color);
+      margin: 0;
+    }
+
+    input {
+      margin: 5px;
+      padding: 10px 20px;
+      border-radius: 100px;
+      border: solid black 2px;
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    .authlink {
+      text-decoration: none;
+      color: var(--link-color);
+      font-weight: 550;
+    }
+
+    button {
+      border-width: 0;
+      padding: 10px 20px;
+      border-radius: 100px;
+      background-color: var(--item-color);
+      font-size: medium;
+      margin: 15px 0;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .authotheraction {
+      margin: 20px 0;
+    }
+  }
+}
