@@ -27,12 +27,14 @@
                 <a class="sectiontab" href="#">Najnovšie</a>
                 <a class="sectiontab" href="#">Populárne</a>
             </div>
-            <div id="search"><img src="" alt="">h</div>
-            <?php if (false) { ?>
-                <a class="buttons" href="#"><?= $auth?->user?->name ?></a>
-            <?php } else { ?>
-                <a class="buttons" href="#">Prihlásiť sa</a>
-            <?php } ?>
+            <div id="navtools">
+                <div id="search"><a href=""><img src="<?= $link->asset('images/search.svg') ?>" alt="Vyhľadávanie"></a></div>
+                <?php if (false) { ?>
+                    <a class="buttons" href="#"><?= $auth?->user?->name ?></a>
+                <?php } else { ?>
+                    <a class="buttons" href="#">Prihlásiť sa</a>
+                <?php } ?>
+            </div>
         </nav>
     <header>
     <?= $contentHTML ?>
