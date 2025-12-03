@@ -7,9 +7,9 @@ $view->setLayout('auth');
 ?>
 
 <div class="authinputcontainer">
-    <p class="authwarning" id="loginwarning"></p>
+    <p class="authwarning" id="registerwarning"></p>
     <div class="authemail">
-        <label for="emailinput">Prihlasovacie meno</label>
+        <label for="emailinput">Email</label>
         <br>
         <input type="text" name="emailinput" id="email">
     </div>
@@ -28,7 +28,7 @@ $view->setLayout('auth');
         <br>
         <input type="password" name="passwordrepeatinput" id="passwordrepeat">
     </div>
-    <button>Registrovať</button>
+    <button onclick="tryregister()">Registrovať</button>
     <div class="authotheraction">
         <a href="?c=auth&a=login" class="authlink">Prihlásiť sa</a>
     </div>

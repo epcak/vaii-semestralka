@@ -7,13 +7,13 @@ $view->setLayout('auth');
 ?>
 
 <div class="authinputcontainer">
-    <p class="authwarning" id="loginwarning"></p>
+    <p class="authwarning" id="forgotwarning"></p>
     <div class="authname">
-        <label for="usernameinput">Prihlasovacie meno / email</label>
+        <label for="usernameinput">Email</label>
         <br>
-        <input type="text" name="usernameinput" id="username">
+        <input type="text" name="usernameinput" id="email">
     </div>
-    <button>Obnoviť heslo</button>
+    <button onclick="tryreset()">Obnoviť heslo</button>
     <div class="authotheraction">
         <a href="?c=auth&a=login" class="authlink">Prihlásiť sa</a>
     </div>

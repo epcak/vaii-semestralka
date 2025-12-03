@@ -21,7 +21,7 @@ $view->setLayout('auth');
     <div>
         <a href="?c=auth&a=forgot" class="authlink">Zabudnuté heslo?</a>
     </div>
-    <button>Prihlásiť sa</button>
+    <button onclick="trylogin()">Prihlásiť sa</button>
     <div class="authotheraction">
         <a href="?c=auth&a=register" class="authlink">Nová registrácia</a>
     </div>
