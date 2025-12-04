@@ -30,9 +30,9 @@
             <div id="navtools">
                 <div id="search"><a href=""><img src="<?= $link->asset('images/search.svg') ?>" alt="Vyhľadávanie"></a></div>
                 <?php if (false) { ?>
-                    <a class="buttons" href="#"><?= $auth?->user?->name ?></a>
+                    <a class="buttons navbutton" href="#"><?= $auth?->user?->name ?></a>
                 <?php } else { ?>
-                    <a class="buttons" href="<?= App\Configuration::LOGIN_URL ?>">Prihlásiť sa</a>
+                    <a class="buttons navbutton" href="<?= App\Configuration::LOGIN_URL ?>">Prihlásiť sa</a>
                 <?php } ?>
             </div>
         </nav>
