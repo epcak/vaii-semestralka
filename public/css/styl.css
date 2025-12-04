@@ -11,9 +11,18 @@
 }
 /* Koniec kodu na pridanie fontu */
 
+:root {
+  --primary-color: #75BD9B;
+  --secondary-color: #47735F;
+  --secondary-color-dark: #385c4c;
+  --primary-background-color: #DBEDE5;
+  --secondary-background-color: #F3FFF9;
+}
+
 body {
   margin: 0;
   padding: 0;
+  background-color: var(--primary-background-color);
 }
 
 .buttons {
@@ -23,15 +32,22 @@ body {
   color: black;
   border-radius: 100px;
   font-weight: bold;
-  background-color: #609b80;
+  background-color: var(--secondary-color);
   &:hover {
-    background-color: #47735F;
+    background-color: var(--secondary-color-dark);
   }
+}
+
+footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px;
 }
 
 header {
   nav {
-    background-color: aquamarine;
+    background-color: var(--primary-color);
     padding: 10px;
     #logonav {
       height: 50px;
@@ -102,17 +118,102 @@ header {
     height: 150px;
    
     #navtools {
-      width: 400px;
+      width: 430px;
       margin: 10px auto 0;
     }
     #navsetion {
       margin: 0 auto;
-      width: 400px;
+      width: 430px;
       .sectiontab {
         float: none;
       }
     }
   }
+}
+
+.secondarycategorycontainer {
+  background-color: var(--secondary-background-color);
+}
+
+@media only screen and (max-width: 450px) {
+  #navtools {
+    width: 355px !important;
+  }
+  #navsetion {
+    width: 365px !important;
+    .sectiontab {
+      font-size: 25px;
+      height: 30px;
+    }
+  }
+}
+
+.primarypreview {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 30px;
+  a {
+      text-decoration: none;
+      color: black;
+    }
+}
+.secondarypreviews {
+  max-width: 1500px;
+  margin: 0 auto;
+  a {
+      text-decoration: none;
+      color: black;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+  .primarypreview {
+    img {
+      width: 100%;
+    }
+  }
+  .secondarypreview {
+    padding: 30px;
+    img {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .primarypreview {
+    display: grid;
+    grid-template-columns: auto auto;
+    img {
+      width: 97%;
+      max-height: 400px;
+    }
+  }
+  .secondarypreviews {
+    display: grid;
+    grid-template-columns: auto auto;
+    .secondarypreview {
+      padding: 30px;
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.tertiarypreviews {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 30px;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.previewsectionname {
+  font-size: 30px;
+  font-weight: 800;
 }
 
 /* Specificky k prihlasovani a registracii*/

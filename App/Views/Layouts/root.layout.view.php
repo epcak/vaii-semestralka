@@ -38,5 +38,8 @@
         </nav>
     <header>
     <?= $contentHTML ?>
+    <footer>
+        <p>© 2025 - Záujmový web</p>
+    </footer>
 </body>
 </html>
