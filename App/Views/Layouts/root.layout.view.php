@@ -21,9 +21,9 @@
 <body>
     <header>
         <nav>
-            <a id="logonav" href="#"><img src="<?= $link->asset('images/logo.png') ?>" alt="logo zauj*web"></a>
+            <a id="logonav" href="<?= $link->url("home.index") ?>"><img src="<?= $link->asset('images/logo.png') ?>" alt="logo zauj*web"></a>
             <div id="navsetion">
-                <a class="sectiontab" href="#">Top</a>
+                <a class="sectiontab" href="<?= $link->url("home.index") ?>">Top</a>
                 <a class="sectiontab" href="#">Najnovšie</a>
                 <a class="sectiontab" href="#">Populárne</a>
             </div>
