@@ -29,7 +29,7 @@ function tryreset() {
     }
 }
 
-function tryregister() {
+async function tryregister() {
     document.getElementById("registerwarning").innerText = "";
     var email = String(document.getElementById("email").value);
     var lastdot = email.lastIndexOf('.');
@@ -62,5 +62,33 @@ function tryregister() {
     if (password1 !== password2) {
         document.getElementById("registerwarning").innerText = "Heslá sa nezhodujú!";
         return;
+    }
+
+    try {
+        let formular = {};
+        formular["username"] = username;
+        formular["email"] = email;
+        formular["password"] = password1;
+
+        const response = await fetch("http://localhost/?c=auth&a=registeror", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formular)
+        });
+
+        if (!response.ok) {
+            alert(response.status);
+            throw new Error(`Kod odpovede: ${response.status}`);
+        }
+
+        const rawresponse = await response.json();
+        document.getElementById("registerwarning").innerText = rawresponse['status'];
+        if (rawresponse['status'] == '') {
+            document.cookie = `session=${rawresponse['session']}`;
+            document.cookie = `username=${username};`
+            window.location.href = "http://localhost";
+        }
+    } catch (ex ) {
+        document.getElementById("registerwarning").innerText = "Nastala chyba pri spracovaní registrácie. Skuste to prosím neskôr.";
     }
 }

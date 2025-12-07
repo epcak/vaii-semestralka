@@ -13,11 +13,9 @@ class User extends Model
     protected ?int $role; // 0 - klasicky uzivatel, 1 - externy prispievatel, 2 - redaktor, 9 - administrator
     protected ?string $description;
     protected ?int $ban; // 0 alebo nic - ziaden ban, 1 - shadow ban, 2 - tvrdy ban
+    protected ?string $session;
 
-    protected static function getPkColumnName(): string
-    {
-        return $this->username;
-    }
+    protected static ?string $primaryKey = 'username';
 
     public function getUsername(): ?string
     {
@@ -87,5 +85,15 @@ class User extends Model
     public function setBan(int $newBan): void
     {
         $this->ban = $newBan;
+    }
+
+    public function getSession(): ?string 
+    {
+        return $this->session;
+    }
+
+    public function setSession(string $newSession): void 
+    {
+        $this->session = $newSession;
     }
 }
