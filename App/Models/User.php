@@ -144,4 +144,16 @@ class User extends Model
         }
         $this->session = $newsession;
     }
+
+    public function addSession(string $toadd): void 
+    {
+        if (!isset($this->session) || $this->session == "")
+        {
+            $this->session = $toadd;
+            return;
+        } else {
+            $this->session = $this->session . ";" . $toadd;
+            return;
+        }
+    }
 }

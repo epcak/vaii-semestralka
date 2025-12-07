@@ -77,7 +77,6 @@ async function tryregister() {
         });
 
         if (!response.ok) {
-            alert(response.status);
             throw new Error(`Kod odpovede: ${response.status}`);
         }
 

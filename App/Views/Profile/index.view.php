@@ -19,9 +19,9 @@
         <div class="descriptionsection">
             <label for="descriptionarea">Popis profilu</label>
             <br>
-            <textarea name="descriptionarea" id="description" value="<?= $logeduser->getDescription() ?>"></textarea>
+            <textarea name="descriptionarea" id="description"><?= $logeduser->getDescription() ?></textarea>
             <br>
-            <button onclick="trychangeemail()">Zmeniť popis</button>
+            <button onclick="trychangedescription()">Zmeniť popis</button>
         </div>
     </div>
     <div class="nastaveniauctu">
