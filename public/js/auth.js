@@ -1,4 +1,4 @@
-function trylogin() {
+async function trylogin() {
     document.getElementById("loginwarning").innerText = "";
     var username = String(document.getElementById("username").value);
     if (username.length < 5) {
@@ -16,6 +16,31 @@ function trylogin() {
     if (password.length < 8) {
         document.getElementById("loginwarning").innerText = "Heslo je príliš krátke!";
         return;
+    }
+
+    try {
+        let formular = {};
+        formular["username"] = username;
+        formular["password"] = password;
+
+        const response = await fetch("http://localhost/?c=auth&a=loginer", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formular)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Kod odpovede: ${response.status}`);
+        }
+
+        const rawresponse = await response.json();
+        if (rawresponse['status'] == 'OK') {
+            window.location.href = "http://localhost";
+        } else {
+            document.getElementById("loginwarning").innerText = rawresponse['status'];
+        }
+    } catch (ex ) {
+        document.getElementById("loginwarning").innerText = "Nastala chyba pri spracovaní registrácie. Skuste to prosím neskôr.";
     }
 }
 

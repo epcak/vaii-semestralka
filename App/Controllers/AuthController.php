@@ -34,43 +34,40 @@ class AuthController extends BaseController
         return $this->redirect(Configuration::LOGIN_URL);
     }
 
-    /**
-     * Authenticates a user and processes the login request.
-     *
-     * This action handles user login attempts. If the login form is submitted, it attempts to authenticate the user
-     * with the provided credentials. Upon successful login, the user is redirected to the admin dashboard.
-     * If authentication fails, an error message is displayed on the login page.
-     *
-     * @return Response The response object which can either redirect on success or render the login view with
-     *                  an error message on failure.
-     * @throws Exception If the parameter for the URL generator is invalid throws an exception.
-     */
     public function login(Request $request): Response
     {
-        $logged = null;
-        if ($request->hasValue('submit')) {
-            $logged = $this->app->getAuthenticator()->login($request->value('username'), $request->value('password'));
-            if ($logged) {
-                return $this->redirect($this->url("admin.index"));
-            }
-        }
-
-        $message = $logged === false ? 'Bad username or password' : null;
-        return $this->html(compact("message"));
+        return $this->html();
     }
 
-    /**
-     * Logs out the current user.
-     *
-     * This action terminates the user's session and redirects them to a view. It effectively clears any authentication
-     * tokens or session data associated with the user.
-     *
-     * @return ViewResponse The response object that renders the logout view.
-     */
-    public function logout(Request $request): Response
+    public function loginer(Request $request): JsonResponse
     {
-        $this->app->getAuthenticator()->logout();
-        return $this->html();
+        $status = "";
+        $newSession = 0;
+        $username = "";
+        $data = $request->json();
+        $posibleuser = \App\Models\User::getAll('`username` like ? or `email` like ?', [$data->username, $data->username]);
+        if (sizeof($posibleuser) == 1) {
+            if (password_verify($data->password, $posibleuser[0]->getPassword()))
+            {
+                $status = "OK";
+                do {
+                    $newSession = rand();
+                    $posibleusers = \App\Models\User::getAll('`session` like ?', [$newSession]);
+                } while (sizeof($posibleusers) > 0);
+                $posibleuser[0]->addSession($newSession);
+                $posibleuser[0]->save();
+                $username = $posibleuser[0]->getUsername();
+                setcookie("username", $username);
+                setcookie("session", $newSession);
+            } else {
+                $status = "Heslo sa nazhoduje.";
+            }
+        } else {
+            $status = "Nenájdený užívateľ.";
+        }
+        $resp = new \StdClass();
+        $resp->status = $status;
+        return $this->json($resp);
     }
 
     public function register(Request $request): Response
