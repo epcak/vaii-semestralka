@@ -281,6 +281,55 @@ header {
   }
 }
 
+.profileabout {
+  h2, h3 {
+    text-align: center;
+  }
+}
+
+.nastaveniacontainer {
+  text-align: center;
+  padding-bottom: 0;
+  padding-top: 30px;
+  button {
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: 0px;
+    margin: 10px;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    &:hover {
+      cursor: pointer;
+      background-color: var(--secondary-color);
+    }
+  }
+  input {
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: black solid 2px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  textarea {
+    font-family: Inter, sans-serif;
+    min-width: 50%;
+    max-width: 90%;
+    height: 200px;
+  }
+  .nastaveniaprofil {
+    padding: 10px;
+  }
+  .nastaveniauctu {
+    background-color: var(--secondary-background-color);
+    padding: 10px;
+  }
+  .nastavenianevratitelne {
+    padding: 10px;
+    button {
+      background-color: rgb(212, 19, 19);
+    }
+  }
+}
+
 /* Specificky k prihlasovani a registracii*/
 .authside {
   --item-color: #75BD9B;

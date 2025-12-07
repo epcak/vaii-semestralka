@@ -96,4 +96,52 @@ class User extends Model
     {
         $this->session = $newSession;
     }
+
+    public function hasSession(string $tofound): ?bool 
+    {
+        if (!isset($this->session) || $this->session == "")
+        {
+            return false;
+        }
+        $everysession = explode(';', $this->session);
+        foreach ($everysession as $sess)
+        {
+            if ($sess == $tofound)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function deleteSession(string $todelete): void 
+    {
+        if (!isset($this->session) || $this->session == "")
+        {
+            return;
+        }
+        $everysession = explode(';', $this->session);
+        $deleteindex = -1;
+        for ($x = 0; $x < sizeof($everysession); $x++)
+        {
+            if ($everysession[$x] == $todelete)
+            {
+                $deleteindex = $x;
+                break;
+            }
+        }
+        if ($deleteindex != -1) {
+            array_splice($everysession, $deleteindex, $deleteindex);
+        }
+        $newsession = "";
+        for ($x = 0; $x < sizeof($everysession); $x++)
+        {
+            if ($x != 0)
+            {
+                $newsession = $newsession . ';';
+            }
+            $newsession = $newsession . $everysession[$x];
+        }
+        $this->session = $newsession;
+    }
 }

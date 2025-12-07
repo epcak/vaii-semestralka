@@ -13,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?= $link->asset('css/styl.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= $link->asset('favicons/favicon.ico') ?>">
+    <script src="<?= $link->asset('js/side.js') ?>"></script>
     <!-- Kod na pridanie fontu z: https://rsms.me/inter/ -->
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -29,8 +30,8 @@
             </div>
             <div id="navtools">
                 <div id="search"><a href=""><img src="<?= $link->asset('images/search.svg') ?>" alt="Vyhľadávanie"></a></div>
-                <?php if (false) { ?>
-                    <a class="buttons navbutton" href="#"><?= $auth?->user?->name ?></a>
+                <?php if (array_key_exists('username', $_COOKIE)) { ?>
+                    <a class="buttons navbutton" href="<?= $link->url("profile.index") ?>"><?= $_COOKIE['username'] ?></a>
                 <?php } else { ?>
                     <a class="buttons navbutton" href="<?= App\Configuration::LOGIN_URL ?>">Prihlásiť sa</a>
                 <?php } ?>
