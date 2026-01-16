@@ -29,7 +29,7 @@
                 <a class="sectiontab" href="#">Populárne</a>
             </div>
             <div id="navtools">
-                <div id="search"><a href=""><img src="<?= $link->asset('images/search.svg') ?>" alt="Vyhľadávanie"></a></div>
+                <div id="search"><a href="<?= $link->url("search.index") ?>"><img src="<?= $link->asset('images/search.svg') ?>" alt="Vyhľadávanie"></a></div>
                 <?php if (array_key_exists('username', $_COOKIE)) { ?>
                     <a class="buttons navbutton" href="<?= $link->url("profile.index") ?>"><?= $_COOKIE['username'] ?></a>
                 <?php } else { ?>
@@ -37,7 +37,7 @@
                 <?php } ?>
             </div>
         </nav>
-    <header>
+    </header>
     <?= $contentHTML ?>
     <footer>
         <p>© 2025 - Záujmový web</p>

@@ -8,30 +8,25 @@ use Framework\Http\Responses\Response;
 use Framework\Http\Responses\JsonResponse;
 use App\Model\User;
 
-class AdminController extends BaseController
+class CreateController extends BaseController
 {
     public function index(Request $request): Response
     {
         return $this->html();
     }
 
-    public function articles(Request $request): Response
+    public function editor(Request $request): Response
     {
         return $this->html();
     }
 
-    public function comments(Request $request): Response
+    public function manage(Request $request): Response
     {
         return $this->html();
     }
 
-    public function users(Request $request): Response
+    public function save(Request $request): JsonResponse
     {
-        return $this->html();
-    }
-
-    public function user(Request $request): Response
-    {
-        return $this->html();
+        
     }
 }

@@ -15,7 +15,7 @@ class ArticleController extends BaseController
 
     public function comments(Request $request): Response
     {
-        return $this->redirect($this->url("article"));
+        return $this->html();
     }
 
     public function index(Request $request): Response

@@ -17,6 +17,8 @@
   --secondary-color-dark: #385c4c;
   --primary-background-color: #DBEDE5;
   --secondary-background-color: #F3FFF9;
+  --warning-color: #d43232;
+  --warning-color-dark: #ba2d2d;
 }
 
 body {
@@ -328,8 +330,402 @@ header {
   .nastavenianevratitelne {
     padding: 10px;
     button {
-      background-color: rgb(212, 19, 19);
+      background-color: var(--warning-color);
+      &:hover {
+        background-color: var(--warning-color-dark);
+        cursor: pointer;
+      }
     }
+  }
+  .kontoltacidla {
+    margin: 0px auto 30px;
+  }
+}
+
+/* Vyhladavanie */
+.vyhladavaniekontajner {
+  text-align: center;
+  max-width: 1300px;
+  margin: 0 auto;
+  a {
+    text-decoration: none;
+    color: black;
+    &:hover {
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+}
+
+#nacitatdalsietlacitko {
+  margin: 30px;
+}
+
+.vyhladavaniezadavanie {
+  padding: 30px 10px;
+  #vyhladavanytextlabel {
+    font-weight: 700;
+    font-size: x-large;
+  }
+  #searchtext {
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: black solid 1,5px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  button {
+    font-weight: 700;
+    background-color: var(--secondary-color);
+    border: 0px;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-left: 5px;
+  }
+}
+
+#vyhladavanietyphladaneho {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.vyhladavanietyp {
+  font-weight: 600;
+  font-size: large;
+  margin: 5px 0;
+}
+
+@media only screen and (min-width: 800px) {
+  .vyhladavanieclanok {
+    text-align: left;
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+}
+
+.vyhladavanieclanok {
+  padding: 10px;
+  img {
+    width: 100%;
+  }
+  .vyhladavanieclanoktext {
+    padding: 10px;
+  }
+}
+
+.vyhladavanieprofil {
+  h2 {
+    margin: 5px 0;
+  }
+}
+
+/* Creator prehlad clankov */
+
+.creatorclanky {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+
+  a {
+    text-decoration: none;
+    color: black;
+    &:hover {
+      color: var(--secondary-color-dark);
+    }
+  }
+
+  .creatorclanokview {
+    padding: 10px;
+    h3 {
+      margin: 5px 0;
+    }
+    .creatorclanoktlacitka {
+      button {
+        margin-left: 5px;
+        font-weight: 700;
+        background-color: var(--warning-color);
+        border: 0;
+        padding: 5px 10px;
+        border-radius: 5px;
+        &:hover {
+          background-color: var(--warning-color-dark);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  #novyclanok {
+      font-weight: 700;
+    }
+}
+
+.zvereneclanky {
+  select {
+    background-color: var(--primary-color);
+    padding: 5px 10px;
+    font-weight: 600;
+    border: 0;
+    border-radius: 5px;
+    option {
+      background-color: var(--primary-color);
+    }
+  }
+}
+
+/* editor */
+
+#editor {
+  header {
+    margin: 10px;
+  }
+}
+
+#editorvratitsa {
+  text-decoration: none;
+  color: black;
+  &:hover {
+    color: var(--secondary-color-dark);
+  }
+}
+
+.nadeditorom {
+  margin: 10px;
+  font-weight: 600;
+  input {
+    padding: 5px 10px;
+    border: solid black 1.5px;
+    border-radius: 100px;
+  }
+  button {
+    border: 0;
+    border-radius: 100px;
+    background-color: var(--secondary-color);
+    font-weight: 600;
+    padding: 5px 15px;
+    &:hover {
+      cursor: pointer;
+      background-color: var(--secondary-color-dark);
+    }
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .editorobrazky {
+    grid-template-columns: auto;
+  }
+}
+
+@media only screen and (min-width: 700px) {
+  .editorobrazky {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .editorobrazky {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+.podeditorom {
+  text-align: center;
+  .editorobrazky {
+    display: grid;
+  }
+  .editorobrazok {
+    padding: 10px;
+    img {
+      width: 100%;
+    }
+  }
+  a {
+    text-decoration: none;
+    font-size: large;
+    color: black;
+    font-weight: 600;
+    &:hover {
+      color: var(--secondary-color-dark);
+    }
+  }
+}
+
+/* administracia */
+.administration {
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  text-align: center;
+  a {
+    text-decoration: none;
+    color: black;
+    &:hover {
+      color: var(--secondary-color-dark);
+    }
+  }
+  .adminmoznosti {
+    ul {
+      li {
+        margin: 10px 0;
+      }
+      a {
+        font-weight: 700;
+        font-size: larger;
+      }
+    }
+  }
+  button {
+    margin: 5px;
+    border: 0;
+    border-radius: 100px;
+    padding: 5px 10px;
+    background-color: var(--secondary-color);
+    font-weight: 600;
+    &:hover {
+      cursor: pointer;
+      background-color: var(--secondary-color-dark);
+    }
+  }
+  .adminbutdang {
+    background-color: var(--warning-color);
+    &:hover {
+      background-color: var(--warning-color-dark);
+    }
+  }
+  .adminnajdenyuzivatelia {
+    ul {
+      li {
+        padding: 4px;
+      }
+    }
+  }
+  .adminzobrazeniepodrobnostiuzivatel {
+    li {
+      padding: 2px;
+      font-size: large;
+      font-weight: 600;
+    }
+  }
+  select {
+    background-color: var(--primary-color);
+    border: 0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    option {
+      background-color: var(--primary-color);
+    }
+  }
+  .adminnajdeneclanky {
+    li {
+      padding: 4px;
+    }
+  }
+}
+
+/* Komentare */
+.komentarekontajner {
+  text-align: center;
+  h4 {
+    margin: 5px 0;
+  }
+  padding: 5px;
+  textarea {
+    margin: 5px auto;
+    width: 90%;
+    height: 40px;
+  }
+  a {
+    color: black;
+    text-decoration: none;
+    &:hover {
+      color: var(--secondary-color-dark);
+    }
+  }
+  button {
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 100px;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    &:hover {
+      background-color: var(--secondary-color);
+      cursor: pointer;
+    }
+  }
+  .delbut {
+    background-color: var(--warning-color);
+    &:hover {
+      background-color: var(--warning-color-dark);
+    }
+  }
+  .komentaredalsie {
+    padding: 10px;
+  }
+}
+
+/* Galeria */
+
+.galeriakontajner {
+  text-align: center;
+  .galerianahratsekcia {
+    padding: 10px;
+    background-color: var(--secondary-background-color);
+    form {
+      padding: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+  button {
+    padding: 10px 20px;
+    font-weight: 700;
+    border: 0;
+    border-radius: 100px;
+    margin: 10px;
+    background-color: var(--primary-color);
+    &:hover {
+      background-color: var(--secondary-color);
+      cursor: pointer;
+    }
+  }
+  .galdelbut {
+    background-color: var(--warning-color);
+    &:hover {
+      background-color: var(--warning-color-dark);
+    }
+  }
+  .galjedtext {
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: black solid 1.5px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  .galeriajednotlivy {
+    padding: 10px;
+    img {
+      width: 100%;
+    }
+  }
+  .galeriasprava {
+    display: grid;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .galeriasprava {
+    grid-template-columns: auto;
+  }
+}
+
+@media only screen and (min-width: 850px) {
+  .galeriasprava {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .galeriasprava {
+    grid-template-columns: auto auto auto;
   }
 }
 
@@ -337,7 +733,6 @@ header {
 .authside {
   --item-color: #75BD9B;
   --link-color: #47735F;
-  --warning-color: rgb(211, 21, 21);
   
   text-align: center;
   background-color: #DBEDE5;

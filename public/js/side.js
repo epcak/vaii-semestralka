@@ -180,3 +180,19 @@ async function trydeletesessions() {
         document.getElementById("errornastavenianevratitelne").innerText = "Nastala chyba pri spracovaní požiadavky. Skuste to prosím neskôr.";
     }
 }
+
+function searchaddarticle(cislo, nazov, popis, obrazok) {
+
+}
+
+function searchaddprofile(menoprofilu) {
+    
+}
+
+async function getsearch() {
+
+}
+
+async function loadmoresearch(poslednenacitane) {
+
+}

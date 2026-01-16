@@ -57,6 +57,11 @@ class ProfileController extends BaseController
             );
     }
 
+    public function gallery(Request $request): Response
+    {
+        return $this->html();
+    }
+
     public function notfound(Request $request): Response
     {
         return $this->html();

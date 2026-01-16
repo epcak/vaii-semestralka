@@ -3,8 +3,15 @@
 /** @var \Framework\Support\LinkGenerator $link */
 ?>
 <div class="nastaveniacontainer">
-    <a class="buttons" href="<?= $link->url("profile.logout") ?>">Odhlásiť sa</a>
-    <a class="buttons" href="<?= $link->url("profile.profile") ?>&name=<?= $logeduser->getUsername() ?>">Zobraziť profil</a>
+    <div class="kontoltacidla">
+        <a class="buttons" href="<?= $link->url("profile.logout") ?>">Odhlásiť sa</a>
+    </div>
+    <div class="kontoltacidla">
+        <a class="buttons" href="<?= $link->url("profile.profile") ?>&name=<?= $logeduser->getUsername() ?>">Zobraziť profil</a>
+    </div>
+    <div class="kontoltacidla">
+        <a class="buttons" href="<?= $link->url("profile.gallery") ?>">Moja galéria</a>
+    </div>
     <div class="nastaveniaprofil">
         <h2>Nastavenia profilu</h2>
         <p id="errornastaveniaprofil"></p>
