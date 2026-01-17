@@ -14,6 +14,7 @@ class User extends Model
     protected ?string $description;
     protected ?int $ban; // 0 alebo nic - ziaden ban, 1 - shadow ban, 2 - tvrdy ban
     protected ?string $session;
+    protected ?string $redactor;
 
     protected static ?string $primaryKey = 'username';
 
@@ -155,5 +156,15 @@ class User extends Model
             $this->session = $this->session . ";" . $toadd;
             return;
         }
+    }
+
+    public function getRedactor(): ?string
+    {
+        return $this->redactor;
+    }
+
+    public function setRedactor(string $newRedactor): void
+    {
+        $this->redactor = $newRedactor;
     }
 }

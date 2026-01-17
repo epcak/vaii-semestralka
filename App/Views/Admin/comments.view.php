@@ -6,12 +6,16 @@
 $view->setLayout('admin');
 ?>
 <div class="adminkomentare">
-    <h2>Nazov clanku</h2>
+    <h2><?= $clanok->getTitle() ?></h2>
     <ul>
-        <li>
-            <a href="<?= $link->url("admin.user")?>"><p>Uzivatel</p></a>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste earum tempore omnis aperiam rerum qui, possimus deleniti velit accusamus architecto, aliquid veritatis libero. Earum, sequi dignissimos eos incidunt qui quidem.</p>
-            <button class="adminbutdang">Odstrániť</button>
-        </li>
+        <?php
+        foreach ($komentare as $komentar) {
+            echo '<li>
+            <a href="' . $link->url("admin.user", ["username" => $komentar->getUser()]) . '"><p>' . $komentar->getUser() . '</p></a>
+            <p>' . $komentar->getComment() . '</p>
+            <button class="adminbutdang" onclick=odstranitkomentar("' . $komentar->getId() . '")>Odstrániť</button>
+        </li>';
+        }
+        ?>
     </ul>
 </div>

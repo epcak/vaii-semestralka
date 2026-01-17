@@ -10,11 +10,6 @@ use App\Model\User;
 
 class ProfileController extends BaseController
 {
-    public function authorize(Request $request, string $action): bool
-    {
-        return true;
-    }
-
     public function index(Request $request): Response
     {
         if (!array_key_exists('username', $_COOKIE) || !array_key_exists('session', $_COOKIE))

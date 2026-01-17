@@ -9,9 +9,28 @@
     <div class="kontoltacidla">
         <a class="buttons" href="<?= $link->url("profile.profile") ?>&name=<?= $logeduser->getUsername() ?>">Zobraziť profil</a>
     </div>
-    <div class="kontoltacidla">
-        <a class="buttons" href="<?= $link->url("profile.gallery") ?>">Moja galéria</a>
-    </div>
+    <?php
+        $rola = $logeduser->getRole();
+        if ($rola == 1 || $rola == 2) { echo
+    '<div class="kontoltacidla">
+        <a class="buttons" href="' . $link->url("profile.gallery") . '">Moja galéria</a>
+    </div>';
+    echo
+    '<div class="kontoltacidla">
+        <a class="buttons" href="' . $link->url("create.index") . '">Moje články</a>
+    </div>';
+        }
+        if ($rola == 2) { echo
+    '<div class="kontoltacidla">
+        <a class="buttons" href="' . $link->url("create.manage") . '">Priradený prispievatelia</a>
+    </div>';
+        }
+        if ($rola == 9) { echo
+    '<div class="kontoltacidla">
+        <a class="buttons" href="' . $link->url("admin.index") . '">Administrácia</a>
+    </div>';
+        }
+    ?>
     <div class="nastaveniaprofil">
         <h2>Nastavenia profilu</h2>
         <p id="errornastaveniaprofil"></p>

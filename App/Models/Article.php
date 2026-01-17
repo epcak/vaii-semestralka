@@ -14,6 +14,7 @@ class Article extends Model
     protected ?int $title_image;
     protected ?string $text;
     protected ?string $tags;
+    protected ?int $published;
 
     public function getId(): ?int
     {
@@ -88,5 +89,15 @@ class Article extends Model
     public function setTags(string $newTags): void 
     {
         $this->tags = $newTags;
+    }
+
+    public function getPublished(): ?int
+    {
+        return $this->published;
+    }
+
+    public function setPublished(int $newPublished): void
+    {
+        $this->published = $newPublished;
     }
 }

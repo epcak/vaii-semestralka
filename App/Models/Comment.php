@@ -8,7 +8,7 @@ class Comment extends Model
 {
     protected ?int $id;
     protected ?int $article_id;
-    protected ?int $user_id;
+    protected ?string $user_id;
     protected ?string $comment;
     protected ?string $created_at;
     protected ?string $edited_at;
