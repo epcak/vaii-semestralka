@@ -4,9 +4,12 @@ namespace App\Controllers;
 
 use Framework\Core\BaseController;
 use Framework\Http\Request;
+use Framework\Http\HttpException;
 use Framework\Http\Responses\Response;
 use Framework\Http\Responses\JsonResponse;
 use App\Model\User;
+use App\Model\Image;
+use App\Configuration;
 
 class ProfileController extends BaseController
 {
@@ -54,7 +57,25 @@ class ProfileController extends BaseController
 
     public function gallery(Request $request): Response
     {
-        return $this->html();
+        if (!array_key_exists('username', $_COOKIE) || !array_key_exists('session', $_COOKIE))
+        {
+            return $this->redirect($this->url('home.index'));
+        }
+        $logeduser = \App\Models\User::getAll('`username` like ?', [$_COOKIE['username']]);
+        $logedin = false;
+        foreach ($logeduser as $usr)
+        {
+            $logedin = $usr->hasSession($_COOKIE['session']);
+            if ($logedin)
+            {
+                break;
+            }
+        }
+        if ($logedin && ($logeduser[0]->getRole() == 1 || $logeduser[0]->getRole() == 2)) {
+            $obrazky = \App\Models\Image::getAll('`user` like ?', [$logeduser[0]->getUsername()]);
+            return $this->html(["obrazky" => $obrazky]);
+        }
+        return $this->redirect($this->url('home.index'));
     }
 
     public function notfound(Request $request): Response
@@ -207,5 +228,96 @@ class ProfileController extends BaseController
         $resp = new \StdClass();
         $resp->status = "OK";
         return $this->json($resp);
+    }
+
+    public function changeimagedescription(Request $request): JsonResponse
+    {
+        $data = $request->json();
+        $resp = new \StdClass();
+        if (!array_key_exists('username', $_COOKIE) || !array_key_exists('session', $_COOKIE))
+        {
+            $resp->status = "Užívateľ neprihlásený.";
+            return $this->json($resp);
+        }
+        $logeduser = \App\Models\User::getAll('`username` like ?', [$_COOKIE['username']])[0];
+        if ($logeduser->getRole() == 1 || $logeduser->getRole() == 2) {
+            $obrazok = \App\Models\Image::getOne($data->imageid);
+            if ($obrazok == NULL) {
+                $resp->status = "Obrázok nenájdený";
+            } else if ($obrazok->getUser() != $logeduser->getUsername()) {
+                $resp->status = "Obrázok nie je vo vlastníctve";
+            } else {
+                $obrazok->setDescription($data->desc);
+                $obrazok->save();
+                $resp->status = "OK";
+            }
+        } else {
+            $resp->status = "Nespravne pravomoci";
+        }
+        
+        return $this->json($resp);
+    }
+
+    public function deleteimage(Request $request): JsonResponse
+    {
+        $data = $request->json();
+        $resp = new \StdClass();
+        if (!array_key_exists('username', $_COOKIE) || !array_key_exists('session', $_COOKIE))
+        {
+            $resp->status = "Užívateľ neprihlásený.";
+            return $this->json($resp);
+        }
+        $logeduser = \App\Models\User::getAll('`username` like ?', [$_COOKIE['username']])[0];
+        if ($logeduser->getRole() == 1 || $logeduser->getRole() == 2) {
+            $obrazok = \App\Models\Image::getOne($data->imageid);
+            if ($obrazok == NULL) {
+                $resp->status = "Obrázok nenájdený";
+            } else if ($obrazok->getUser() != $logeduser->getUsername()) {
+                $resp->status = "Obrázok nie je vo vlastníctve";
+            } else {
+                $obrazok->delete();
+                $resp->status = "OK";
+            }
+        } else {
+            $resp->status = "Nespravne pravomoci";
+        }
+        
+        return $this->json($resp);
+    }
+
+    public function uploadimage(Request $request): Response
+    {
+        if (!is_dir(Configuration::UPLOAD_DIR)) {
+            if (!@mkdir(Configuration::UPLOAD_DIR, 0777, true) && !is_dir(Configuration::UPLOAD_DIR)) {
+                throw new HttpException(500, 'Nepodarilo sa vytvoriť adresár pre nahrávanie obrázkov.',);
+            }
+        }
+        if (!array_key_exists('username', $_COOKIE) || !array_key_exists('session', $_COOKIE)) {
+            throw new HttpException(401);
+        }
+        $koncovka = "";
+        $novyobrazok = $request->file('nahratobrazok');
+        $typobrazka = $novyobrazok->getType();
+        if ($typobrazka == "image/png") {
+            $koncovka = ".png";
+        } else if ($typobrazka == "image/jpeg") {
+            $koncovka = ".jpg";
+        }
+        if ($koncovka == "") throw new HttpException(400, "Zlý typ súboru.");
+
+        $obrazok = new \App\Models\Image;
+        $obrazok->setLocation("");
+        $obrazok->setUser($_COOKIE['username']);
+        $obrazok->save();
+        $cestaukladania = Configuration::UPLOAD_DIR . $obrazok->getId() . $koncovka;
+        if (!$novyobrazok->store($cestaukladania)) {
+            $obrazok->delete();
+            throw new HttpException(500, 'Nepodarilo sa uložiť obrázok.',);
+        }
+
+        $obrazok->setLocation($cestaukladania);
+        $obrazok->save();
+
+        return $this->redirect($this->url('profile.gallery'));
     }
 }

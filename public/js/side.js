@@ -196,3 +196,126 @@ async function getsearch() {
 async function loadmoresearch(poslednenacitane) {
 
 }
+
+async function viewmanaged() {
+    const uzivatel = String(document.getElementById("zverenyuzivatel").value);
+    let zoznamclankov = document.getElementById("creatorclanokview");
+    zoznamclankov.innerHTML = "";
+    if (uzivatel == "ziaden") return;
+    try {
+        let formular = {"username": uzivatel};
+        const response = await fetch("http://localhost/?c=create&a=subeditorarticles", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(formular)
+            });
+
+        if (!response.ok) {
+            throw new Error(`Kod odpovede: ${response.status}`);
+        }
+        const rawresponse = await response.json();
+        for (let i = 0; i < rawresponse.nazvy.length; i++) {
+            let zverejnene = "";
+            if (rawresponse.zverejnene[i] == 1) zverejnene = "checked";
+            zoznamclankov.innerHTML += `<a href="?c=article&id=${rawresponse.id[i]}"><h3>${rawresponse.nazvy[i]}</h3></a>
+        <div class="creatorclanoktlacitka">
+            <input type="checkbox" name="zverejneny${rawresponse.id[i]}" id="zverejneny${rawresponse.id[i]}" onchange=zverejnitclakon("${rawresponse.id[i]}") ${zverejnene}>
+            <label for="zverejneny${rawresponse.id[i]}">Zverejnený</label>
+        </div>`
+        }
+    } catch (ex ) {
+
+    }
+}
+
+async function zverejnitclakon(idclanku) {
+    const zvolene = String(document.getElementById(`zverejneny${idclanku}`).checked);
+    let formular = {"articleid": idclanku, "published": zvolene};
+    const response = await fetch("http://localhost/?c=create&a=changepublished", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formular)
+        });
+
+    if (!response.ok) {
+        window.alert("Nastala chyba pri zmene zverejnenia!");
+        throw new Error(`Kod odpovede: ${response.status}`);
+    }
+    const rawresponse = await response.json();
+    if (rawresponse.status == "OK") {
+        window.alert("Zverejnenie článku je zmenené!");
+        return;
+    } else {
+        window.alert("Zverejnenie článku nie je zmenené!");
+    }
+}
+
+async function odstranitclanok(idclanku) {
+    if (!window.confirm(`Naozaj chcete vymazať článok?`)) {
+        return;
+    }
+    let formular = {"articleid": idclanku};
+    const response = await fetch("http://localhost/?c=create&a=deletearticle", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formular)
+        });
+    if (!response.ok) {
+        window.alert("Nastala chyba pri odstránení článku!");
+        throw new Error(`Kod odpovede: ${response.status}`);
+    }
+    const rawresponse = await response.json();
+    if (rawresponse.status == "OK") {
+        window.alert("Článok je vymazaný!");
+        location.reload();
+        return;
+    } else {
+        window.alert("Článok nie je vymazaný!");
+    }
+}
+
+async function changeimagedescription(imageid) {
+    const zvolene = String(document.getElementById(`imagedesc${imageid}`).value);
+    let formular = {"imageid": imageid, "desc": zvolene};
+    const response = await fetch("http://localhost/?c=profile&a=changeimagedescription", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formular)
+        });
+    if (!response.ok) {
+        window.alert("Nastala chyba pri zmene popisu!");
+        throw new Error(`Kod odpovede: ${response.status}`);
+    }
+    const rawresponse = await response.json();
+    if (rawresponse.status == "OK") {
+        window.alert("Popis je zmenený!");
+        location.reload();
+        return;
+    } else {
+        window.alert("Popis nie je zmenený!");
+    }
+}
+
+async function deleteimage(imageid) {
+    if (!window.confirm(`Naozaj chcete vymazať obrázok?`)) {
+        return;
+    }
+    let formular = {"imageid": imageid};
+    const response = await fetch("http://localhost/?c=profile&a=deleteimage", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formular)
+        });
+    if (!response.ok) {
+        window.alert("Nastala chyba pri odstránení obrázku!");
+        throw new Error(`Kod odpovede: ${response.status}`);
+    }
+    const rawresponse = await response.json();
+    if (rawresponse.status == "OK") {
+        window.alert("Obrázok je vymazaný!");
+        location.reload();
+        return;
+    } else {
+        window.alert("Obrázok nie je vymazaný!");
+    }
+}

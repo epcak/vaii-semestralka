@@ -7,8 +7,8 @@ use Framework\Core\Model;
 class Articleimage extends Model
 {
     protected ?int $id;
-    protected ?int $article;
-    protected ?int $image;
+    protected ?int $article_id;
+    protected ?int $image_id;
 
     public function getId(): ?int 
     {
@@ -17,21 +17,21 @@ class Articleimage extends Model
 
     public function getArticle(): ?int 
     {
-        return $this->article;
+        return $this->article_id;
     }
 
     public function setArticle(int $newArticle): void 
     {
-        $this->article = $newArticle;
+        $this->article_id = $newArticle;
     }
 
     public function getImage(): ?int 
     {
-        return $this->image;
+        return $this->image_id;
     }
 
     public function setImage(int $newImage): void 
     {
-        $this->image = $newImage;
+        $this->image_id = $newImage;
     }
 }
