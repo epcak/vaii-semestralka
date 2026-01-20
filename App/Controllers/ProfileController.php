@@ -275,6 +275,7 @@ class ProfileController extends BaseController
             } else if ($obrazok->getUser() != $logeduser->getUsername()) {
                 $resp->status = "Obrázok nie je vo vlastníctve";
             } else {
+                @unlink($obrazok->getLocation());
                 $obrazok->delete();
                 $resp->status = "OK";
             }

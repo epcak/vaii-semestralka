@@ -319,3 +319,68 @@ async function deleteimage(imageid) {
         window.alert("Obrázok nie je vymazaný!");
     }
 }
+
+async function odoslatkomentar() {
+    const idclanku = String(document.getElementById("komentarclanokid").value);
+    const text = String(document.getElementById("novykomentar").value);
+    let formular = {"id": -1, "novy": true, "text": text, "clanok": idclanku};
+    const response = await fetch("http://localhost/?c=article&a=commentsave", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formular)
+        });
+    if (!response.ok) {
+        window.alert("Nastala chyba pri nahratí komentára!");
+        throw new Error(`Kod odpovede: ${response.status}`);
+    }
+    const rawresponse = await response.json();
+    if (rawresponse.status == "OK") {
+        location.reload();
+        return;
+    } else {
+        window.alert("Nastala chyba pri nahratí komentára!");
+    }
+}
+
+async function ulozitkomentar(idkomentara) {
+    const idclanku = String(document.getElementById("komentarclanokid").value);
+    const text = String(document.getElementById(`komentarvlastny${idkomentara}`).value);
+    let formular = {"id": idkomentara, "novy": false, "text": text, "clanok": idclanku};
+    const response = await fetch("http://localhost/?c=article&a=commentsave", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formular)
+        });
+    if (!response.ok) {
+        window.alert("Nastala chyba pri uložení komentára!");
+        throw new Error(`Kod odpovede: ${response.status}`);
+    }
+    const rawresponse = await response.json();
+    if (rawresponse.status == "OK") {
+        location.reload();
+        return;
+    } else {
+        window.alert("Nastala chyba pri uložení komentára!");
+    }
+}
+
+async function vymazatkomentar(idkomentara) {
+    const idclanku = String(document.getElementById("komentarclanokid").value);
+    let formular = {"id": idkomentara, "clanok": idclanku};
+    const response = await fetch("http://localhost/?c=article&a=commentdelete", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formular)
+        });
+    if (!response.ok) {
+        window.alert("Nastala chyba pri odstranení komentára!");
+        throw new Error(`Kod odpovede: ${response.status}`);
+    }
+    const rawresponse = await response.json();
+    if (rawresponse.status == "OK") {
+        location.reload();
+        return;
+    } else {
+        window.alert("Nastala chyba pri odstranení komentára!");
+    }
+}

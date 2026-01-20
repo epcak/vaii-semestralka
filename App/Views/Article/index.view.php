@@ -19,7 +19,7 @@
     <h2 class="gallerysectionname">Galéria</h3>
     <div class="gallerycontainer">
         <?php foreach($obrazky as $obrazok) {
-            echo '<img src="<?= $link->asset(' . $obrazok->getLocation() . ') ?>" alt="' . $obrazok->getDescription() . '">';
+            echo '<img src="' . $obrazok->getLocation() . '" alt="' . $obrazok->getDescription() . '">';
         }
         ?>
     </div>
