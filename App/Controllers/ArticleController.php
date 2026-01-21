@@ -54,11 +54,27 @@ class ArticleController extends BaseController
             $prihlaseny = true;
             $uzivatel = $_COOKIE['username'];
         }
+
+        $shadow = [];
+        $perma = [];
+        $uzivatelia = \App\Models\User::getAll('`ban` like 1');
+        foreach ($uzivatelia as $uzv) {
+            array_push($shadow, $uzv->getUsername());
+        }
+        $uzivatelia = \App\Models\User::getAll('`ban` like 2');
+        foreach ($uzivatelia as $uzv) {
+            array_push($perma, $uzv->getUsername());
+            if ($uzv->getUsername() == $uzivatel) {
+                $prihlaseny = false;
+                $uzivatel = "";
+            }
+        }
+
         $komentare = \App\Models\Comment::getAll('`article_id` like ?', [$request->value('id')]);
         $clanok = \App\Models\Article::getOne($request->value('id'));
         if ($clanok == NULL || $clanok->getPublished() != 1) return $this->redirect($this->url("home.index"));
         
-        return $this->html(["prihlaseny" => $prihlaseny, "uzivatel" => $uzivatel, "komentare" => $komentare, "clanok" =>$clanok]);
+        return $this->html(["prihlaseny" => $prihlaseny, "uzivatel" => $uzivatel, "komentare" => $komentare, "clanok" =>$clanok, "shadow" => $shadow, "perma" => $perma]);
     }
 
     public function commentsave(Request $request): JsonResponse

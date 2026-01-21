@@ -27,7 +27,7 @@
             <button class="delbut" onclick=vymazatkomentar("' . $komentar->getId() . '")>Odstrániť komentár</button>
         </div>
     </div>';
-        } else {
+        } else if (!in_array($komentar->getUser(), $shadow) && !in_array($komentar->getUser(), $perma)) {
             echo '<div class="komentarekomentar">
         <a href="' . $link->url("profile.profile", ["name" => $komentar->getUser()]) . '"><h4>' . $komentar->getUser() . '</h4></a>
         <p>' . $komentar->getComment() . '</p>
