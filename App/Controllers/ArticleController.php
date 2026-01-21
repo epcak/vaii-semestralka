@@ -36,6 +36,8 @@ class ArticleController extends BaseController
                     array_push($obrazky, $najorb);
                 }
             }
+            $clanok->addView();
+            $clanok->save();
             return $this->html(["clanok" => $clanok, "obrazky" => $obrazky, "uvodnyobrazok" => $uvodnyobrazok]);
         }
         return $this->redirect($this->url("home.index"));
@@ -90,7 +92,7 @@ class ArticleController extends BaseController
                 $komentar = new \App\Models\Comment;
                 $komentar->setArticle(intval($clanokid));
                 $komentar->setUser($_COOKIE['username']);
-                $komentar->setComment($text);
+                $komentar->setComment(addslashes($text));
                 $komentar->save();
             } else {
                 $komentar = \App\Models\Comment::getOne($idkomentar);

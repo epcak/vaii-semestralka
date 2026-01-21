@@ -25,8 +25,8 @@
             <a id="logonav" href="<?= $link->url("home.index") ?>"><img src="<?= $link->asset('images/logo.png') ?>" alt="logo zauj*web"></a>
             <div id="navsetion">
                 <a class="sectiontab" href="<?= $link->url("home.index") ?>">Top</a>
-                <a class="sectiontab" href="#">Najnovšie</a>
-                <a class="sectiontab" href="#">Populárne</a>
+                <a class="sectiontab" href="<?= $link->url("home.new") ?>">Najnovšie</a>
+                <a class="sectiontab" href="<?= $link->url("home.popular") ?>">Populárne</a>
             </div>
             <div id="navtools">
                 <div id="search"><a href="<?= $link->url("search.index") ?>"><img src="<?= $link->asset('images/search.svg') ?>" alt="Vyhľadávanie"></a></div>

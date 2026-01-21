@@ -218,6 +218,11 @@ header {
   font-weight: 800;
 }
 
+#nacitatdalsie {
+  width: 201px;
+  margin: 0px auto 20px;
+}
+
 @media only screen and (max-width: 700px) {
   .articleheaderimage {
     height: 300px;
@@ -405,6 +410,7 @@ header {
   padding: 10px;
   img {
     width: 100%;
+    max-height: 300px;
   }
   .vyhladavanieclanoktext {
     padding: 10px;

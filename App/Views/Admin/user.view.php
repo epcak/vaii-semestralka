@@ -51,10 +51,14 @@ $view->setLayout('admin');
         foreach ($clanky as $clanok) {
             $zverejneny = "";
             if ($clanok->getPublished() == 1) $zverejneny = "checked";
+            $topnuty = "";
+            if ($clanok->getTags() == "top") $topnuty = "checked";
             echo '<li>
                 <span>' . $clanok->getTitle() . '</span>
-                <input type="checkbox" name="clanokstav" id="clanokstav">
-                <label for="clanokstav" ' . $zverejneny . '>Zverejnený</label>
+                <input type="checkbox" name="clanokstav' . $clanok->getId() . '" id="clanokstav' . $clanok->getId() . '" ' . $zverejneny . ' onchange=zverejnitclakon(' . $clanok->getId() . ')>
+                <label for="clanokstav' . $clanok->getId() . '">Zverejnený</label>
+                <input type="checkbox" name="clanoktop' . $clanok->getId() . '" id="clanoktop' . $clanok->getId() . '" ' . $topnuty . ' onchange=topclanok(' . $clanok->getId() . ')>
+                <label for="clanoktop' . $clanok->getId() . '">Top</label>
                 <a href="' . $link->url("admin.comments", ["id" => $clanok->getId()]) . '"><button >Komentáre</button></a>
                 <button class="adminbutdang" onclick=odstranitclanok(' . $clanok->getId() . ')>Odstrániť</button>
             </li>';

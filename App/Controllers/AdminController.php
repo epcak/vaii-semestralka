@@ -218,15 +218,20 @@ class AdminController extends BaseController
         $mena = [];
         $idclanky = [];
         $zverejnene = [];
+        $topovane = [];
         foreach ($clanky as $atr)
         {
             array_push($mena, $atr->getTitle());
             array_push($idclanky, $atr->getId());
             array_push($zverejnene, $atr->getPublished());
+            if ($atr->getTags() == "top") {
+                array_push($topovane, true);
+            } else array_push($topovane, false);
         }
         $resp->mena = $mena;
         $resp->id = $idclanky;
         $resp->zverejnene = $zverejnene;
+        $resp->top = $topovane;
         return $this->json($resp);
     }
 
@@ -251,6 +256,35 @@ class AdminController extends BaseController
                     $najdeny->setPublished(1);
                 } else {
                     $najdeny->setPublished(0);
+                }
+                $najdeny->save();
+                $resp->status = "OK";
+            }
+        }
+        return $this->json($resp);
+    }
+
+    public function changetop(Request $request): JsonResponse
+    {
+        if ($this->jeadmin() == false)
+        {
+            throw new HTTPException(401);
+        }
+        $data = $request->json();
+        $idc = $data->articleid;
+        $topovane = $data->top;
+        $resp = new \StdClass();
+        if ($idc == NULL || $topovane == NULL) {
+            $resp->status = "InvalidInput" . $idc . $topovane;
+        } else {
+            $najdeny = \App\Models\Article::getOne($idc);
+            if ($najdeny == NULL) {
+                $resp->status = "NotFound";
+            } else {
+                if ($topovane == "true") {
+                    $najdeny->setTags("top");
+                } else {
+                    $najdeny->setTags("");
                 }
                 $najdeny->save();
                 $resp->status = "OK";

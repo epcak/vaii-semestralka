@@ -5,53 +5,93 @@ namespace App\Controllers;
 use Framework\Core\BaseController;
 use Framework\Http\Request;
 use Framework\Http\Responses\Response;
+use Framework\Http\Responses\JsonResponse;
+use App\Model\Article;
+use App\Model\Image;
 
-/**
- * Class HomeController
- * Handles actions related to the home page and other public actions.
- *
- * This controller includes actions that are accessible to all users, including a default landing page and a contact
- * page. It provides a mechanism for authorizing actions based on user permissions.
- *
- * @package App\Controllers
- */
 class HomeController extends BaseController
 {
-    /**
-     * Authorizes controller actions based on the specified action name.
-     *
-     * In this implementation, all actions are authorized unconditionally.
-     *
-     * @param string $action The action name to authorize.
-     * @return bool Returns true, allowing all actions.
-     */
-    public function authorize(Request $request, string $action): bool
-    {
-        return true;
-    }
-
-    /**
-     * Displays the default home page.
-     *
-     * This action serves the main HTML view of the home page.
-     *
-     * @return Response The response object containing the rendered HTML for the home page.
-     */
     public function index(Request $request): Response
     {
-        return $this->html();
+        $clanky = \App\Models\Article::getAll('`tags` like ? and published like 1', ["%top%"]);
+        $obrazky = [];
+        foreach ($clanky as $clanok) {
+            $uvodnyobrazok = \App\Models\Image::getOne($clanok->getTitleImage());
+            if ($uvodnyobrazok == NULL) {
+                $uvodnyobrazok = 'images/defaultimage.png';
+            } else {
+                $uvodnyobrazok = $uvodnyobrazok->getLocation();
+            }
+            array_push($obrazky, $uvodnyobrazok);
+        }
+        return $this->html(["clanky" => $clanky, "obrazky" => $obrazky]);
     }
 
-    /**
-     * Displays the contact page.
-     *
-     * This action serves the HTML view for the contact page, which is accessible to all users without any
-     * authorization.
-     *
-     * @return Response The response object containing the rendered HTML for the contact page.
-     */
-    public function contact(Request $request): Response
+    public function new(Request $request): Response
     {
-        return $this->html();
+        $clanky = \App\Models\Article::getAll('published like 1 order by created_at desc limit 15', []);
+        $obrazky = [];
+        foreach ($clanky as $clanok) {
+            $uvodnyobrazok = \App\Models\Image::getOne($clanok->getTitleImage());
+            if ($uvodnyobrazok == NULL) {
+                $uvodnyobrazok = 'images/defaultimage.png';
+            } else {
+                $uvodnyobrazok = $uvodnyobrazok->getLocation();
+            }
+            array_push($obrazky, $uvodnyobrazok);
+        }
+        return $this->html(["clanky" => $clanky, "obrazky" => $obrazky]);
+    }
+
+    public function popular(Request $request): Response
+    {
+        $clanky = \App\Models\Article::getAll('published like 1 order by view desc limit 15', []);
+        $obrazky = [];
+        foreach ($clanky as $clanok) {
+            $uvodnyobrazok = \App\Models\Image::getOne($clanok->getTitleImage());
+            if ($uvodnyobrazok == NULL) {
+                $uvodnyobrazok = 'images/defaultimage.png';
+            } else {
+                $uvodnyobrazok = $uvodnyobrazok->getLocation();
+            }
+            array_push($obrazky, $uvodnyobrazok);
+        }
+        return $this->html(["clanky" => $clanky, "obrazky" => $obrazky]);
+    }
+
+    public function loadmorenew(Request $request): JsonResponse
+    {
+        $data = $request->json();
+        $nacitane = $data->nacitane;
+        $clanky = \App\Models\Article::getAll('published like 1 order by created_at desc limit 10 offset ' . intval($nacitane));
+        $resp = new \StdClass();
+        $nazvy = [];
+        $idclanky = [];
+        foreach ($clanky as $atr)
+        {
+            array_push($nazvy, $atr->getTitle());
+            array_push($idclanky, $atr->getId());
+        }
+        $resp->nazvy = $nazvy;
+        $resp->id = $idclanky;
+        return $this->json($resp);
+    }
+
+    public function loadmorepopular(Request $request): JsonResponse
+    {
+        $data = $request->json();
+        $nacitane = $data->nacitane;
+        $clanky = \App\Models\Article::getAll('published like 1 order by view desc limit 10 offset ' . intval($nacitane));
+        $resp = new \StdClass();
+        $nazvy = [];
+        $idclanky = [];
+        foreach ($clanky as $atr)
+        {
+            array_push($nazvy, $atr->getTitle());
+            array_push($idclanky, $atr->getId());
+        }
+        $resp->nazvy = $nazvy;
+        $resp->id = $idclanky;
+        return $this->json($resp);
     }
 }

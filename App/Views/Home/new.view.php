@@ -34,3 +34,7 @@ if ($pocetclankov < $maxdruha) $maxdruha = $pocetclankov;
         <a href="<?= $link->url("article.index", ["id" => $clanky[$i]->getId()]) ?>"><h2><?= $clanky[$i]->getTitle() ?></h2></a>
     <?php endfor; ?>
 </div>
+<div id="nacitatdalsie">
+    <input type="hidden" name="pocetnacitanych" id="pocetnacitanych" value="<?= $pocetclankov ?>">
+    <a class="buttons" href="#butnacdal" onclick=prinacitajnove() id="butnacdal">Načítať ďalšie</a>
+</div>

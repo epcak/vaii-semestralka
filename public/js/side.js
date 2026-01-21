@@ -181,20 +181,180 @@ async function trydeletesessions() {
     }
 }
 
-function searchaddarticle(cislo, nazov, popis, obrazok) {
-
-}
-
-function searchaddprofile(menoprofilu) {
-    
-}
-
 async function getsearch() {
+    let typvyhladavania = "vsetky";
+    let typyvyhladavania = document.getElementsByName("typvyhladavania");
+    for (i = 0; i < typyvyhladavania.length; i++) {
+        if (typyvyhladavania[i].checked) {
+            typvyhladavania = typyvyhladavania[i].value;
+        }
+    }
+    const vyhladavanie = document.getElementById("searchtext").value;
+    try {
+        let formular = {"typ": typvyhladavania, "hladane": vyhladavanie, "offsetprofily": 0, "offsetclanky": 0};
+        const response = await fetch("http://localhost/?c=search&a=getsearch", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(formular)
+            });
 
+        if (!response.ok) {
+            throw new Error(`Kod odpovede: ${response.status}`);
+        }
+        const rawresponse = await response.json();
+        let zoznamnajdene = document.getElementsByClassName("vyhladavanievysledky")[0];
+        zoznamnajdene.innerHTML = "";
+        let pocetclanky = 0;
+        let pocetprofily = 0;
+        for (i = 0; i < rawresponse.typy.length; i++) {
+            if (rawresponse.typy[i] == "clanok") {
+                pocetclanky++;
+                zoznamnajdene.innerHTML += `<div class="vyhladavanievysledok">
+            <p class="vyhladavanietyp">Článok</p>
+            <div class="vyhladavanieclanok">
+                <a href="?c=article&id=${rawresponse.id[i]}"><img src="${rawresponse.obrazky[i]}" alt="náhľad článku"></a>
+                <div class="vyhladavanieclanoktext">
+                    <a href="?c=article&id=${rawresponse.id[i]}"><h2>${rawresponse.nazvy[i]}</h2></a>
+                    <p>${rawresponse.texty[i]}</p>
+                </div>
+            </div>
+        </div>`;
+            }
+            if (rawresponse.typy[i] == "profil") {
+                pocetprofily++
+                zoznamnajdene.innerHTML += `<div class="vyhladavanievysledok">
+            <p class="vyhladavanietyp">Profil</p>
+            <div class="vyhladavanieprofil">
+                <a href="?c=profile&a=profile&user=${rawresponse.texty[i]}"><h2>${rawresponse.nazvy[i]}</h2></a>
+            </div>
+        </div>`
+            }
+        }
+        document.getElementById("pocetvyhladanehoprofil").value = pocetprofily;
+        document.getElementById("pocetvyhladanehoclanky").value = pocetclanky;
+        document.getElementById("searchmore").hidden = false;
+        if (rawresponse.typy.length == 0) {
+            document.getElementById("searchmore").hidden = true;
+        }
+    } catch (ex ) {
+
+    }
 }
 
-async function loadmoresearch(poslednenacitane) {
+async function loadmoresearch() {
+    let typvyhladavania = "vsetky";
+    let typyvyhladavania = document.getElementsByName("typvyhladavania");
+    let offsetprofily = document.getElementById("pocetvyhladanehoprofil").value 
+    let offsetclanky = document.getElementById("pocetvyhladanehoclanky").value 
+    for (i = 0; i < typyvyhladavania.length; i++) {
+        if (typyvyhladavania[i].checked) {
+            typvyhladavania = typyvyhladavania[i].value;
+        }
+    }
+    const vyhladavanie = document.getElementById("searchtext").value;
+    try {
+        let formular = {"typ": typvyhladavania, "hladane": vyhladavanie, "offsetprofily": offsetprofily, "offsetclanky": offsetclanky};
+        const response = await fetch("http://localhost/?c=search&a=getsearch", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(formular)
+            });
 
+        if (!response.ok) {
+            throw new Error(`Kod odpovede: ${response.status}`);
+        }
+        const rawresponse = await response.json();
+        let zoznamnajdene = document.getElementsByClassName("vyhladavanievysledky")[0];
+        let pocetclanky = 0;
+        let pocetprofily = 0;
+        for (i = 0; i < rawresponse.typy.length; i++) {
+            if (rawresponse.typy[i] == "clanok") {
+                pocetclanky++;
+                zoznamnajdene.innerHTML += `<div class="vyhladavanievysledok">
+            <p class="vyhladavanietyp">Článok</p>
+            <div class="vyhladavanieclanok">
+                <a href="?c=article&id=${rawresponse.id[i]}"><img src="${rawresponse.obrazky[i]}" alt="náhľad článku"></a>
+                <div class="vyhladavanieclanoktext">
+                    <a href="?c=article&id=${rawresponse.id[i]}"><h2>${rawresponse.nazvy[i]}</h2></a>
+                    <p>${rawresponse.texty[i]}</p>
+                </div>
+            </div>
+        </div>`;
+            }
+            if (rawresponse.typy[i] == "profil") {
+                pocetprofily++;
+                zoznamnajdene.innerHTML += `<div class="vyhladavanievysledok">
+            <p class="vyhladavanietyp">Profil</p>
+            <div class="vyhladavanieprofil">
+                <a href="?c=profile&a=profile&user=${rawresponse.texty[i]}"><h2>${rawresponse.nazvy[i]}</h2></a>
+            </div>
+        </div>`
+            }
+        }
+        document.getElementById("pocetvyhladanehoprofil").value += pocetprofily;
+        document.getElementById("pocetvyhladanehoclanky").value += pocetclanky;
+        if (rawresponse.typy.length == 0) {
+            document.getElementById("searchmore").hidden = true;
+        }
+    } catch (ex ) {
+
+    }
+}
+
+async function prinacitajnove() {
+    const pocetnacitanych = String(document.getElementById("pocetnacitanych").value);
+    let zoznamclankov = document.getElementsByClassName("tertiarypreviews")[0];
+    try {
+        let formular = {"nacitane": pocetnacitanych};
+        const response = await fetch("http://localhost/?c=home&a=loadmorenew", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(formular)
+            });
+
+        if (!response.ok) {
+            throw new Error(`Kod odpovede: ${response.status}`);
+        }
+        const rawresponse = await response.json();
+        for (let i = 0; i < rawresponse.nazvy.length; i++) {
+            zoznamclankov.innerHTML += `<a href="?c=article&id=${rawresponse.id[i]}"><h2>${rawresponse.nazvy[i]}</h2></a>`
+        }
+        let pocet = parseInt(document.getElementById("pocetnacitanych").value) + rawresponse.nazvy.length;
+        document.getElementById("pocetnacitanych").value = pocet;
+        if (rawresponse.nazvy.length == 0) {
+            document.getElementById("butnacdal").hidden = true;
+        }
+    } catch (ex ) {
+
+    }
+}
+
+async function prinacitajpopularne() {
+    const pocetnacitanych = String(document.getElementById("pocetnacitanych").value);
+    let zoznamclankov = document.getElementsByClassName("tertiarypreviews")[0];
+    try {
+        let formular = {"nacitane": pocetnacitanych};
+        const response = await fetch("http://localhost/?c=home&a=loadmorepopular", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(formular)
+            });
+
+        if (!response.ok) {
+            throw new Error(`Kod odpovede: ${response.status}`);
+        }
+        const rawresponse = await response.json();
+        for (let i = 0; i < rawresponse.nazvy.length; i++) {
+            zoznamclankov.innerHTML += `<a href="?c=article&id=${rawresponse.id[i]}"><h2>${rawresponse.nazvy[i]}</h2></a>`
+        }
+        let pocet = parseInt(document.getElementById("pocetnacitanych").value) + rawresponse.nazvy.length;
+        document.getElementById("pocetnacitanych").value = pocet;
+        if (rawresponse.nazvy.length == 0) {
+            document.getElementById("butnacdal").hidden = true;
+        }
+    } catch (ex ) {
+
+    }
 }
 
 async function viewmanaged() {

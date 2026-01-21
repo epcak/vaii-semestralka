@@ -157,6 +157,28 @@ async function zverejnitclakon(idclanku) {
     }
 }
 
+async function topclanok(idclanku) {
+    const zvolene = String(document.getElementById(`clanoktop${idclanku}`).checked);
+    let formular = {"articleid": idclanku, "top": zvolene};
+    const response = await fetch("http://localhost/?c=admin&a=changetop", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formular)
+        });
+
+    if (!response.ok) {
+        window.alert("Nastala chyba pri zmene topovania!");
+        throw new Error(`Kod odpovede: ${response.status}`);
+    }
+    const rawresponse = await response.json();
+    if (rawresponse.status == "OK") {
+        window.alert("Topovanie článku je zmenené!");
+        return;
+    } else {
+        window.alert("Topovanie článku nie je zmenené!");
+    }
+}
+
 async function hladatclanky() {
     const hladane = String(document.getElementById("menoclanku").value);
     try {
@@ -176,10 +198,14 @@ async function hladatclanky() {
         for (var i = 0; i < rawresponse.mena.length; i++) {
             let zverej = "";
             if (rawresponse.zverejnene[i] == 1) zverej = "checked";
+            let topnute = "";
+            if (rawresponse.top[i] == true) topnute = "checked";
             listprenajdene.innerHTML += `<li>
             <span>${rawresponse.mena[i]}</span>
             <input type="checkbox" name="clanokstav${rawresponse.id[i]}" id="clanokstav${rawresponse.id[i]}" onchange=zverejnitclakon(${rawresponse.id[i]}) ${zverej}>
             <label for="clanokstav${rawresponse.id[i]}">Zverejnený</label>
+            <input type="checkbox" name="clanoktop${rawresponse.id[i]}" id="clanoktop${rawresponse.id[i]}" onchange=topclanok(${rawresponse.id[i]}) ${topnute}>
+            <label for="clanoktop${rawresponse.id[i]}">Top</label>
             <a href="?c=admin&a=comments&id=${rawresponse.id[i]}"><button>Komentáre</button></a>
             <button class="adminbutdang" onclick="odstranitclanok(${rawresponse.id[i]})">Odstrániť</button>
         </li>`;

@@ -15,6 +15,7 @@ class Article extends Model
     protected ?string $text;
     protected ?string $tags;
     protected ?int $published;
+    protected ?int $view;
 
     public function getId(): ?int
     {
@@ -99,5 +100,15 @@ class Article extends Model
     public function setPublished(int $newPublished): void
     {
         $this->published = $newPublished;
+    }
+
+    public function getView(): ?int
+    {
+        return $this->view;
+    }
+
+    public function addView(): void
+    {
+        $this->view++;
     }
 }

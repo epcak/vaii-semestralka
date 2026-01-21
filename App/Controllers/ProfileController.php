@@ -9,6 +9,7 @@ use Framework\Http\Responses\Response;
 use Framework\Http\Responses\JsonResponse;
 use App\Model\User;
 use App\Model\Image;
+use App\Model\Articleimage;
 use App\Configuration;
 
 class ProfileController extends BaseController
@@ -275,6 +276,10 @@ class ProfileController extends BaseController
             } else if ($obrazok->getUser() != $logeduser->getUsername()) {
                 $resp->status = "Obrázok nie je vo vlastníctve";
             } else {
+                $obrazokvclanku = \App\Models\Articleimage::getAll("image_id like ?", [$data->imageid]);
+                foreach ($obrazokvclanku as $obr) {
+                    $obr->delete();
+                }
                 @unlink($obrazok->getLocation());
                 $obrazok->delete();
                 $resp->status = "OK";
