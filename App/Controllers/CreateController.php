@@ -243,6 +243,7 @@ class CreateController extends BaseController
                 $clanok = new \App\Models\Article;
                 $clanok->setTitleImage(-1);
                 $clanok->setAuthor($logeduser[0]->getUsername());
+                $clanok->setView(0);
             } else {
                 $clanok = \App\Models\Article::getOne($data->id);
                 $clanok->setEdited(date("Y-m-d H:i:s"));

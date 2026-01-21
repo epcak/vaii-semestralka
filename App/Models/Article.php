@@ -111,4 +111,9 @@ class Article extends Model
     {
         $this->view++;
     }
+
+    public function setView(int $newView): void
+    {
+        $this->view = $newView;
+    }
 }
